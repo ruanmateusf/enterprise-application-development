@@ -10,6 +10,7 @@ import br.com.fiap.jpa.dao.NotaFiscalDAO;
 import br.com.fiap.jpa.dao.PedidoDAO;
 import br.com.fiap.jpa.dao.impl.NotaFiscalDAOImpl;
 import br.com.fiap.jpa.dao.impl.PedidoDAOImpl;
+import br.com.fiap.jpa.entity.ItemPedido;
 import br.com.fiap.jpa.entity.NotaFiscal;
 import br.com.fiap.jpa.entity.Pedido;
 import br.com.fiap.jpa.exception.CommitException;
@@ -31,10 +32,19 @@ public class CadastroTeste {
 				new GregorianCalendar(2018, Calendar.MARCH, 16),
 				400, pedido);
 		
+		ItemPedido item1 = new ItemPedido("Pizza de Frango", 39.90);
+		ItemPedido item2 = new ItemPedido("Pizza de Calabresa", 42.80);
+		ItemPedido item3 = new ItemPedido("Pizza de Atum", 32.00);
+		
+		pedido.adicionarItem(item1);
+		pedido.adicionarItem(item2);
+		pedido.adicionarItem(item3);
+		
 		try {
-			//pedidoDao.inserir(pedido);
-			notaDao.inserir(nota);
-			notaDao.commit();
+			pedidoDao.inserir(pedido);
+			//notaDao.inserir(nota);
+			//notaDao.commit();
+			pedidoDao.commit();
 		} catch (CommitException e) {
 			e.printStackTrace();
 		}
