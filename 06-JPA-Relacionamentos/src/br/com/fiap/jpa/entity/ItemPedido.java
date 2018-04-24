@@ -11,28 +11,38 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="T_ITEM_PEDIDO")
-@SequenceGenerator(name="item",sequenceName="SQ_T_ITEM_PEDIDO",allocationSize=1)
+@Table(name = "T_ITEM_PEDIDO")
+@SequenceGenerator(name = "item", sequenceName = "SQ_T_ITEM_PEDIDO", allocationSize = 1)
 public class ItemPedido {
-	
+
 	@Id
-	@Column(name="cd_item")
-	@GeneratedValue(generator="item",strategy=GenerationType.SEQUENCE)
+	@Column(name = "cd_item")
+	@GeneratedValue(generator = "item", strategy = GenerationType.SEQUENCE)
 	private int codigo;
-	
-	@Column(name="ds_item")
+
+	@Column(name = "ds_item")
 	private String descricao;
-	
-	@Column(name="vl_item")
+
+	@Column(name = "vl_item")
 	private double valor;
-	
+
 	@ManyToOne
-	@JoinColumn(name="cd_pedido")
+	@JoinColumn(name = "cd_pedido")
 	private Pedido pedido;
 
-	public ItemPedido() {
+	public Pedido getPedido() {
+		return pedido;
 	}
-	
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	public ItemPedido() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public ItemPedido(String descricao, double valor) {
 		super();
 		this.descricao = descricao;
@@ -47,6 +57,13 @@ public class ItemPedido {
 		this.codigo = codigo;
 	}
 
+	public String getDecricao() {
+		return descricao;
+	}
+
+	public void setDecricao(String decricao) {
+		this.descricao = decricao;
+	}
 	public String getDescricao() {
 		return descricao;
 	}
@@ -63,12 +80,4 @@ public class ItemPedido {
 		this.valor = valor;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
-	
 }

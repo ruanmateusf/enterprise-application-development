@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,44 +18,43 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
 @Entity
 @Table(name="T_PEDIDO")
-@SequenceGenerator(name="pedido",sequenceName="SQ_T_PEDIDO",allocationSize=1)
+@SequenceGenerator(name="pedido", sequenceName="SQ_T_PEDIDO", allocationSize=1)
 public class Pedido {
-
+	
 	@Id
 	@Column(name="cd_pedido")
-	@GeneratedValue(generator="pedido",strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(generator="pedido", strategy=GenerationType.SEQUENCE)
 	private int codigo;
 	
-	@Column(name="dt_pedido",nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="dt_pedido", nullable=false)
 	private Calendar data;
 	
-	@Column(name="ds_pedido",nullable=false,length=200)
+	@Column(name="ds_pedido", nullable=false, length=200)
 	private String descricao;
 	
-	@OneToOne(mappedBy="pedido")
+	@OneToOne(mappedBy="pedido",fetch=FetchType.LAZY)
 	private NotaFiscal nota;
 	
-	@OneToMany(mappedBy="pedido",cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="pedido", cascade=CascadeType.PERSIST)
 	private List<ItemPedido> itens = new ArrayList<>();
-
-	public void adicionarItem(ItemPedido item) {
 	
+	public void adicionarItem(ItemPedido item) {
 		itens.add(item);
 		item.setPedido(this);
 	}
 	
+	public Pedido() {
+		super();
+	}
+
 	public Pedido(Calendar data, String descricao) {
 		super();
 		this.data = data;
 		this.descricao = descricao;
-	}
-
-	public Pedido() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getCodigo() {
@@ -96,5 +96,12 @@ public class Pedido {
 	public void setItens(List<ItemPedido> itens) {
 		this.itens = itens;
 	}
-	
+	public List<ItemPedido> getItemPedido() {
+		return itens;
+	}
+
+	public void setItemPedido(List<ItemPedido> itemPedido) {
+		this.itens = itemPedido;
+	}
+
 }
